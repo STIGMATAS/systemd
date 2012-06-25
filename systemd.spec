@@ -39,7 +39,7 @@ Requires:       dbus
 Requires:       hwdata
 Requires:       filesystem >= 3
 Requires:       nss-myhostname
-Source0:        http://www.freedesktop.org/software/systemd/%{name}-%{version}.tar.xz
+Source0:        %{name}.tar.gz
 
 Obsoletes:      SysVinit < 2.86-24, sysvinit < 2.86-24
 Provides:       SysVinit = 2.86-24, sysvinit = 2.86-24
