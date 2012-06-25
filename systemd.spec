@@ -219,30 +219,6 @@ touch %{buildroot}%{_sysconfdir}/timezone
 mkdir -p %{buildroot}%{_sysconfdir}/X11/xorg.conf.d
 touch %{buildroot}%{_sysconfdir}/X11/xorg.conf.d/00-keyboard.conf
 
-# Install RPM macros file for systemd
-mkdir -p %{buildroot}%{_sysconfdir}/rpm/
-install -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/rpm/
-
-# Install SysV conversion tool for systemd
-install -m 0755 %{SOURCE2} %{buildroot}%{_bindir}/
-
-# Install modprobe fragment
-mkdir -p %{buildroot}%{_sysconfdir}/modprobe.d/
-install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/modprobe.d/
-
-# Install rsyslog fragment
-mkdir -p %{buildroot}%{_sysconfdir}/rsyslog.d/
-install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/rsyslog.d/
-
-# To avoid making life hard for Rawhide-using developers, don't package the
-# kernel.core_pattern setting until systemd-coredump is a part of an actual
-# systemd release and it's made clear how to get the core dumps out of the
-# journal.
-rm -f %{buildroot}%{_prefix}/lib/sysctl.d/coredump.conf
-
-# Let rsyslog read from /proc/kmsg for now
-sed -i -e 's/\#ImportKernel=yes/ImportKernel=no/' %{buildroot}%{_sysconfdir}/systemd/journald.conf
-
 %pre
 getent group cdrom >/dev/null || /usr/sbin/groupadd -g 11 cdrom || :
 getent group tape >/dev/null || /usr/sbin/groupadd -g 33 tape || :
