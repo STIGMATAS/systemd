@@ -155,13 +155,18 @@ CFLAGS_SUFFIX=
 
 export CFLAGS="${CFLAGS} ${CFLAGS_SUFFIX}"
 export CXXFLAGS=${CFLAGS}
+
 ./autogen.sh
-%configure \
-  --with-distro=fedora \
-  --disable-plymouth \
-  --libexecdir=%{_prefix}/lib \
-  --enable-gtk-doc \
-  --disable-static
+%configure --libexecdir=%{_prefix}/lib \
+           --enable-gtk-doc \
+           --disable-static \
+           --with-distro=other \
+           --disable-selinux \
+           --disable-pam \
+           --disable-tcpwrap \
+           --disable-ima \
+           --disable-xz
+
 make %{?_smp_mflags}
 
 %install
