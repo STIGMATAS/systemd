@@ -42,10 +42,6 @@ Requires:       nss-myhostname
 Source0:        %{name}.tar.gz
 
 Obsoletes:      SysVinit < 2.86-24, sysvinit < 2.86-24
-Provides:       SysVinit = 2.86-24, sysvinit = 2.86-24
-Provides:       sysvinit-userspace
-Provides:       systemd-sysvinit
-Obsoletes:      systemd-sysvinit
 Obsoletes:      upstart < 1.2-3
 Obsoletes:      upstart-sysvinit < 1.2-3
 Conflicts:      upstart-sysvinit
@@ -92,15 +88,6 @@ Obsoletes:      libudev-devel < 183
 
 %description devel
 Development headers and auxiliary files for developing applications for systemd.
-
-%package sysv
-Group:          System Environment/Base
-Summary:        SysV tools for systemd
-License:        LGPLv2+
-Requires:       %{name} = %{version}-%{release}
-
-%description sysv
-SysV compatibility tools for systemd
 
 %package analyze
 Group:          System Environment/Base
@@ -342,7 +329,6 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %ghost %config(noreplace) %{_sysconfdir}/machine-info
 %ghost %config(noreplace) %{_sysconfdir}/timezone
 %ghost %config(noreplace) %{_sysconfdir}/X11/xorg.conf.d/00-keyboard.conf
-%config(noreplace) %{_sysconfdir}/rsyslog.d/listen.conf
 %{_prefix}/lib/systemd/systemd
 %{_bindir}/systemd
 %{_bindir}/systemctl
@@ -362,7 +348,6 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %{_bindir}/systemd-delta
 %{_bindir}/systemd-detect-virt
 %{_bindir}/systemd-inhibit
-%{_bindir}/systemd-readahead-analyze
 %{_bindir}/udevadm
 %{_prefix}/lib/systemd/system
 %{_prefix}/lib/systemd/user
@@ -370,7 +355,6 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %{_prefix}/lib/udev
 %{_prefix}/lib/systemd/system-generators/systemd-cryptsetup-generator
 %{_prefix}/lib/systemd/system-generators/systemd-getty-generator
-%{_prefix}/lib/systemd/system-generators/systemd-rc-local-generator
 %{_prefix}/lib/systemd/system-generators/systemd-fstab-generator
 %{_prefix}/lib/systemd/system-generators/systemd-system-update-generator
 %{_sbindir}/init
@@ -403,7 +387,9 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %{_datadir}/polkit-1/actions/org.freedesktop.timedate1.policy
 %{_datadir}/pkgconfig/systemd.pc
 %{_datadir}/pkgconfig/udev.pc
-%config(noreplace) %{_sysconfdir}/modprobe.d/udlfb.conf
+# TODO: Install only If not rawhide.
+%{_prefix}/lib/sysctl.d/coredump.conf
+
 %dir %{_prefix}/lib/firmware
 %dir %{_prefix}/lib/firmware/updates
 
@@ -415,7 +401,6 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %ghost %config(noreplace) %{_sysconfdir}/systemd/system/runlevel5.target
 
 %files libs
-%{_libdir}/security/pam_systemd.so
 %{_libdir}/libsystemd-daemon.so.*
 %{_libdir}/libsystemd-login.so.*
 %{_libdir}/libsystemd-journal.so.*
@@ -444,9 +429,6 @@ mv /etc/systemd/system/default.target.save /etc/systemd/system/default.target >/
 %{_mandir}/man3/*
 %dir %{_datadir}/gtk-doc/html/libudev
 %attr(0644,root,root) %{_datadir}/gtk-doc/html/libudev/*
-
-%files sysv
-%{_bindir}/systemd-sysv-convert
 
 %files analyze
 %{_bindir}/systemd-analyze
