@@ -1,9 +1,7 @@
-%global gitcommit e7aee75
-
 Name:           systemd
 Url:            http://www.freedesktop.org/wiki/Software/systemd
 Version:        185
-Release:        7%{?gitcommit:.git%{gitcommit}}%{?dist}
+Release:        7:.%{?dist}
 # For a breakdown of the licensing, see README
 License:        LGPLv2+ and MIT and GPLv2+
 Group:          System Environment/Base
@@ -30,11 +28,9 @@ BuildRequires:  gperf
 BuildRequires:  xz-devel
 BuildRequires:  kmod-devel >= 5
 BuildRequires:  gtk-doc
-%if %{defined gitcommit}
 BuildRequires:  automake
 BuildRequires:  autoconf
 BuildRequires:  libtool
-%endif
 Requires(post): coreutils
 Requires(post): gawk
 Requires(pre):  coreutils
@@ -43,12 +39,7 @@ Requires:       dbus
 Requires:       hwdata
 Requires:       filesystem >= 3
 Requires:       nss-myhostname
-%if %{defined gitcommit}
-# Snapshot tarball can be created using: ./make-git-shapshot.sh [gitcommit]
-Source0:        %{name}-git%{gitcommit}.tar.xz
-%else
 Source0:        http://www.freedesktop.org/software/systemd/%{name}-%{version}.tar.xz
-%endif
 # Adds support for the %%{_unitdir} macro
 Source1:        macros.systemd
 Source2:        systemd-sysv-convert
@@ -155,10 +146,10 @@ This package contains the header and pkg-config files for developing
 glib-based applications using libudev functionality.
 
 %prep
-%setup -q %{?gitcommit:-n %{name}-git%{gitcommit}}
+%setup -q -n %{name}
 
 %build
-%{?gitcommit: ./autogen.sh }
+./autogen.sh
 %configure \
   --with-distro=fedora \
   --disable-plymouth \
