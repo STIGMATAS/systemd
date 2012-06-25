@@ -40,13 +40,6 @@ Requires:       hwdata
 Requires:       filesystem >= 3
 Requires:       nss-myhostname
 Source0:        http://www.freedesktop.org/software/systemd/%{name}-%{version}.tar.xz
-# Adds support for the %%{_unitdir} macro
-Source1:        macros.systemd
-Source2:        systemd-sysv-convert
-# Stop-gap, just to ensure things work out-of-the-box for this driver.
-Source3:        udlfb.conf
-# Stop-gap, just to ensure things work fine with rsyslog without having to change the package right-away
-Source4:        listen.conf
 
 Obsoletes:      SysVinit < 2.86-24, sysvinit < 2.86-24
 Provides:       SysVinit = 2.86-24, sysvinit = 2.86-24
